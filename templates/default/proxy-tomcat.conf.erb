@@ -1,0 +1,48 @@
+ProxyRequests off
+ProxyPreserveHost on
+RewriteEngine  on
+
+### Base Proxy Pass Directives
+
+ProxyPass /keepalive.html !
+ProxyPass /totara !
+
+### Application Direct-to-Assets Rules
+
+<Directory /var/lib/tomcat9/webapps/ROOT/dist/>
+    Options FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    allow from all
+    Require all granted
+</Directory>
+
+### LMS Aliases
+
+Alias /assets /var/lib/tomcat9/webapps/ROOT/dist/assets
+ProxyPass /assets !
+
+Alias /scripts /var/lib/tomcat9/webapps/ROOT/dist/scripts
+ProxyPass /scripts !
+
+Alias /vendor /var/lib/tomcat9/webapps/ROOT/dist/vendor
+ProxyPass /vendor !
+
+### S3 Proxy Start
+
+SSLProxyEngine on
+SSLProxyCheckPeerCN off
+SSLProxyCheckPeerExpire off
+SSLProxyCheckPeerName off
+SSLProxyProtocol all
+SSLProxyVerify off
+
+<Location /s3/lms>
+    ProxyPreserveHost off
+    ProxyPass https://<%= node['deploy']['webapp']['environment']['aws_s3_bucket'] %>.s3.amazonaws.com/lms
+</Location>
+
+### Applications Proxy Rules
+
+ProxyPass / http://localhost:8080/
+ProxyPassReverse / http://localhost:8080/
