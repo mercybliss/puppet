@@ -1,0 +1,21 @@
+# The home directory of the Java development kit (JDK). You need at least
+# JDK version 8. If JAVA_HOME is not set, some common directories for
+# OpenJDK and the Oracle JDK are tried.
+#JAVA_HOME=<%= node['java']['java_home'] % {jdk_version: node['java']['jdk_version']} %>
+
+# You may pass JVM startup parameters to Java here. If unset, the default
+# options will be: -Djava.awt.headless=true -XX:+UseG1GC
+JAVA_OPTS="-Djava.awt.headless=true -XX:+UseG1GC -Dspring.profiles.active=prod -Duser.timezone=America/Chicago -Djava.io.tmpdir=/mnt/app-data/tmp -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+# To enable remote debugging uncomment the following line.
+# You will then be able to use a Java debugger on port 8000.
+#JAVA_OPTS="${JAVA_OPTS} -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
+
+# Java compiler to use for translating JavaServer Pages (JSPs). You can use all
+# compilers that are accepted by Ant's build.compiler property.
+#JSP_COMPILER=javac
+
+# Enable the Java security manager? (true/false, default: false)
+#SECURITY_MANAGER=true
+
+# Whether to compress logfiles older than today's
+#LOGFILE_COMPRESS=1
